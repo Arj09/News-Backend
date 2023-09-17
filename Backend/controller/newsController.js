@@ -40,7 +40,7 @@ const getPosts = asyncHandler( async  (req, res)=>{
     const news = await News.find()
     const news1 = news.reverse()
     
-    res.status(200).json(new1)
+    res.status(200).json(news1)
     
 })
 
