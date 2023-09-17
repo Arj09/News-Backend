@@ -17,14 +17,14 @@ const createPost = asyncHandler( async (req, res)=>{
     const checkAccess = await User.findOne({_id: req.user.id});
 
     //check if  user is admin if user is amdin then add otherwise not
-    if(checkAccess.role == "admin"){
+    if(checkAccess.role == "Journalist"){
         const news = await News.create({
             title,
             description,
             user_id: req.user.id,
     
         })
-        res.status(202).json(blog)
+        res.status(202).json(news)
 
     }
     else{
@@ -68,15 +68,12 @@ const updatePost = asyncHandler(async (req, res)=>{
         throw new Error('blog not found');
     }
 
-    if (news.user_id.toString() !== req.user.id) {
-        res.status(403);
-        throw new Error("User don't have permission to update this  post");
-    }
+    
 
     const checkAccess = await User.findOne({_id: req.user.id});
      //check if  user is admin if user is amdin then add otherwise not
 
-    if(checkAccess.role == "admin"){
+    if(checkAccess.role == "Admin"){
         const updateBlog = await News.findByIdAndUpdate(
             req.params.id,
             req.body,
@@ -107,20 +104,17 @@ const deletePost = asyncHandler ( async  (req, res)=>{
         throw new Error('blog not found');
     }
 
-    if (news.user_id.toString() !== req.user.id) {
-        res.status(403);
-        throw new Error("User don't have permission to delete this post");
-      }
+    
     
     const checkAccess = await User.findOne({_id: req.user.id});
 
 
     //check if  user is admin if user is amdin then add otherwise not
-    if(checkAccess.role == "admin"){
+    if(checkAccess.role == "Admin"){
         await News.findByIdAndRemove(
             req.params.id
         )
-        res.status(200).json(blog);
+        res.status(200).json(news);
     }
     else{
         res.status(404).json({Message:"You don't have permission for delete news"})
