@@ -18,7 +18,7 @@ const createPost = asyncHandler( async (req, res)=>{
 
     //check if  user is admin if user is amdin then add otherwise not
     if(checkAccess.role == "admin"){
-        const blog = await News.create({
+        const news = await News.create({
             title,
             description,
             user_id: req.user.id,
@@ -37,38 +37,38 @@ const createPost = asyncHandler( async (req, res)=>{
 
 // It is public whuch can access any one
 const getPosts = asyncHandler( async  (req, res)=>{
-    const blog = await News.find()
-    const blog1 = blog.reverse()
+    const news = await News.find()
+    const news1 = news.reverse()
     
-    res.status(200).json(blog1)
+    res.status(200).json(new1)
     
 })
 
 // It is public whuch can access any one
 const getPost = asyncHandler( async (req, res)=>{
 
-    const blog = await News.findById(req.params.id);
+    const news = await News.findById(req.params.id);
 
-    if(!blog){
+    if(!news){
         res.status(404);
         throw new Error('blog not found');
     }
 
     
-    res.status(200).json(blog);
+    res.status(200).json(news);
 })
 
 // It is private which can access by admin
 const updatePost = asyncHandler(async (req, res)=>{
 
-    const blog = await News.findById(req.params.id);
+    const news = await News.findById(req.params.id);
 
-    if(!blog){
+    if(!news){
         res.status(404);
         throw new Error('blog not found');
     }
 
-    if (blog.user_id.toString() !== req.user.id) {
+    if (news.user_id.toString() !== req.user.id) {
         res.status(403);
         throw new Error("User don't have permission to update this  post");
     }
@@ -100,14 +100,14 @@ const updatePost = asyncHandler(async (req, res)=>{
 // It is private which can access by admin
 const deletePost = asyncHandler ( async  (req, res)=>{
 
-    const blog = await News.findById(req.params.id);
+    const news = await News.findById(req.params.id);
 
-    if(!blog){
+    if(!news){
         res.status(404);
         throw new Error('blog not found');
     }
 
-    if (blog.user_id.toString() !== req.user.id) {
+    if (news.user_id.toString() !== req.user.id) {
         res.status(403);
         throw new Error("User don't have permission to delete this post");
       }
